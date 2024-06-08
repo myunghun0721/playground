@@ -5,14 +5,19 @@ import Experience from './Experience.jsx'
 
 const root = ReactDOM.createRoot(document.querySelector('#root'))
 
+const created = () =>{
+    console.log('created')
+}
+
 root.render(
-    <Canvas
+    <Canvas shadows
         camera={ {
             fov: 45,
             near: 0.1,
             far: 200,
             position: [ - 4, 3, 6 ]
         } }
+        onCreated={ created }
     >
         <Experience />
     </Canvas>
