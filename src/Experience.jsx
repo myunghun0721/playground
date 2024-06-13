@@ -1,4 +1,4 @@
-import { BakeShadows, MeshReflectorMaterial, Float, Text, Html, PivotControls, TransformControls, OrbitControls, useHelper, SoftShadows, Sky, Environment, Stage } from '@react-three/drei'
+import { BakeShadows, MeshReflectorMaterial, Float, Text, Html, PivotControls, TransformControls, OrbitControls, useHelper, SoftShadows, Sky, Environment, Stage, useGLTF, useTexture } from '@react-three/drei'
 import { useRef } from 'react'
 import * as THREE from 'three'
 import { useFrame } from '@react-three/fiber'
@@ -10,11 +10,20 @@ import Hamburger from './Hamburger'
 import Fox from './Fox'
 
 export default function Experience() {
-
+    // model setup
+    const {nodes} = useGLTF('./model/portal.glb')
+    const bakedTexture = useTexture('./model/baked.jpg')
+    bakedTexture.flipY = false
     return <>
+        <color args={ ['#201919']} attach={"background"} />
+
         <OrbitControls makeDefault />
 
-        <directionalLight castShadow position={[1, 2, 3]} intensity={1.5} shadow-normalBias={0.04}/>
+        <mesh geometry={nodes.baked.geometry}>
+            <meshBasicMaterial map={bakedTexture}/>
+        </mesh>
+
+        {/* <directionalLight castShadow position={[1, 2, 3]} intensity={1.5} shadow-normalBias={0.04}/>
         <ambientLight intensity={0.5} />
 
         <mesh receiveShadow position-y={-1} rotation-x={- Math.PI * 0.5} scale={10}>
@@ -27,7 +36,7 @@ export default function Experience() {
             <Hamburger scale={0.35}/>
         </Suspense>
 
-        <Fox/>
+        <Fox/> */}
     </>
 }
 // export default function Experience() {
