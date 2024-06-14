@@ -25,19 +25,32 @@ extend({ PortalMaterial })
 export default function Experience() {
     // model setup
     const { nodes } = useGLTF('./model/portal.glb')
+    const hamburger = useGLTF('./hamburger.glb')
+
     const bakedTexture = useTexture('./model/baked.jpg')
     bakedTexture.flipY = false
 
     const portalMaterial = useRef()
 
-    useFrame((state, delta)=>{
+    useFrame((state, delta) => {
         portalMaterial.current.uTime += delta
     })
+
+    const cube = useRef()
+
+    const eventHandler = () => {
+        cube.current.material.color.set(`hsl(${Math.random() * 360}, 100%, 75%)`)
+    }
+    const portalEvent = () => {
+        portalMaterial.current.uniforms.uColorStart.value.set(`hsl(${Math.random() * 360}, 100%, 75%)`)
+        portalMaterial.current.uniforms.uColorEnd.value.set(`hsl(${Math.random() * 360}, 100%, 75%)`)
+    }
     return <>
         <color args={['#201919']} attach={"background"} />
 
         <OrbitControls makeDefault />
-
+        <directionalLight castShadow position={[1, 2, 3]} intensity={1.5} shadow-normalBias={0.04} />
+        <ambientLight intensity={0.5} />
         <Center>
 
             <mesh geometry={nodes.baked.geometry}>
@@ -51,8 +64,29 @@ export default function Experience() {
                 <meshBasicMaterial color={"#ffffe5"} />
             </mesh>
 
-            <mesh geometry={nodes.portalLight.geometry} position={nodes.portalLight.position} rotation={nodes.portalLight.rotation}>
+            <mesh
+                geometry={nodes.portalLight.geometry}
+                position={nodes.portalLight.position}
+                rotation={nodes.portalLight.rotation}
+                onClick={portalEvent}
+                onPointerEnter={() => { document.body.style.cursor = 'pointer' }}
+                onPointerLeave={() => { document.body.style.cursor = 'default' }}
+            >
                 <portalMaterial ref={portalMaterial} />
+            </mesh>
+
+            <mesh
+                castShadow
+                ref={cube}
+                position-x={4}
+                position-y={1}
+                scale={1.5}
+                onClick={eventHandler}
+                onPointerEnter={() => { document.body.style.cursor = 'pointer' }}
+                onPointerLeave={() => { document.body.style.cursor = 'default' }}
+            >
+                <boxGeometry />
+                <meshStandardMaterial color="mediumpurple" />
             </mesh>
 
             {/* sparkles */}
@@ -65,6 +99,15 @@ export default function Experience() {
             />
         </Center>
 
+        <primitive
+            object={hamburger.scene}
+            scale={0.25}
+            position-x={-6}
+            position-y={-0.5}
+            onClick={(e)=>{
+                e.stopPropagation()
+            }}
+        />
         {/* <directionalLight castShadow position={[1, 2, 3]} intensity={1.5} shadow-normalBias={0.04}/>
         <ambientLight intensity={0.5} />
 
