@@ -11,16 +11,29 @@ const created = () => {
 
 root.render(
     <Canvas
-        flat
-        shadows
         camera={{
             fov: 45,
             near: 0.1,
             far: 200,
-            position: [- 4, 6, 10]
+            position: [4, 2, 6]
         }}
-        onCreated={created}
     >
         <Experience />
     </Canvas>
 )
+
+// root.render(
+//     <Canvas
+//         flat
+//         shadows
+//         camera={{
+//             fov: 45,
+//             near: 0.1,
+//             far: 200,
+//             position: [- 4, 6, 10]
+//         }}
+//         onCreated={created}
+//     >
+//         <Experience />
+//     </Canvas>
+// )

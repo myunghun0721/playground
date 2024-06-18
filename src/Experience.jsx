@@ -10,6 +10,8 @@ import Hamburger from './Hamburger'
 import Fox from './Fox'
 import portalVertexShader from './shaders/portal/vertex.glsl'
 import portalFragmentShader from './shaders/portal/fragment.glsl'
+import { DepthOfField, Bloom, Glitch, EffectComposer, ToneMapping } from '@react-three/postprocessing'
+import { GlitchMode, ToneMappingMode } from 'postprocessing'
 
 const PortalMaterial = shaderMaterial(
     {
@@ -46,25 +48,53 @@ export default function Experience() {
         portalMaterial.current.uniforms.uColorEnd.value.set(`hsl(${Math.random() * 360}, 100%, 75%)`)
     }
     return <>
-        <color args={['#201919']} attach={"background"} />
+        <color args={['#000000']} attach={"background"} />
+
+        <EffectComposer>
+            <ToneMapping mode={ToneMappingMode.ACES_FILMIC} />
+            {/* <Glitch
+                delay={ [ 0.5, 1 ] }
+                duration={ [ 0.1, 0.3 ] }
+                strength={ [ 0.2, 0.4 ] }
+                mode={ GlitchMode.CONSTANT_MILD }
+            /> */}
+            {/* <Bloom
+                mipmapBlur
+                intensity={0.5}
+                luminanceThreshold={0}
+            /> */}
+            <DepthOfField
+                focusDistance={ 0.025 }
+                focalLength={ 0.025 }
+                bokehScale={ 6 }
+            />
+        </EffectComposer>
 
         <OrbitControls makeDefault />
         <directionalLight castShadow position={[1, 2, 3]} intensity={1.5} shadow-normalBias={0.04} />
         <ambientLight intensity={0.5} />
         <Center>
 
-            <mesh geometry={nodes.baked.geometry}>
+            <mesh
+                castShadow
+                geometry={nodes.baked.geometry}>
                 <meshBasicMaterial map={bakedTexture} />
             </mesh>
 
-            <mesh geometry={nodes.poleLightA.geometry} position={nodes.poleLightA.position}>
+            <mesh
+                castShadow
+                geometry={nodes.poleLightA.geometry} position={nodes.poleLightA.position}>
                 <meshBasicMaterial color={"#ffffe5"} />
             </mesh>
-            <mesh geometry={nodes.poleLightB.geometry} position={nodes.poleLightB.position}>
+            <mesh
+                castShadow
+                geometry={nodes.poleLightB.geometry} position={nodes.poleLightB.position}>
                 <meshBasicMaterial color={"#ffffe5"} />
             </mesh>
 
             <mesh
+
+                castShadow
                 geometry={nodes.portalLight.geometry}
                 position={nodes.portalLight.position}
                 rotation={nodes.portalLight.rotation}
@@ -104,10 +134,16 @@ export default function Experience() {
             scale={0.25}
             position-x={-6}
             position-y={-0.5}
-            onClick={(e)=>{
+            onClick={(e) => {
                 e.stopPropagation()
             }}
         />
+
+        <mesh receiveShadow position-y={- 1} rotation-x={- Math.PI * 0.5} scale={10}>
+            <planeGeometry />
+            <meshStandardMaterial color="greenyellow" />
+        </mesh>
+
         {/* <directionalLight castShadow position={[1, 2, 3]} intensity={1.5} shadow-normalBias={0.04}/>
         <ambientLight intensity={0.5} />
 
