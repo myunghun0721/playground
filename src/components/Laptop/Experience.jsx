@@ -1,9 +1,20 @@
 import { Text, ContactShadows, Environment, Float, Html, PresentationControls, useGLTF } from '@react-three/drei'
+import { Canvas } from '@react-three/fiber'
+import { NavLink } from 'react-router-dom'
 
 export default function Experience() {
     const computer = useGLTF('https://threejs-journey.com/resources/models/macbook_model.gltf')
 
-    return <>
+    return <Canvas
+        className="r3f"
+        camera={{
+            fov: 45,
+            near: 0.1,
+            far: 2000,
+            position: [-3, 1.5, 4]
+        }}
+    >
+
         <Environment preset='city' />
         <color args={['#241a1a']} attach={"background"} />
 
@@ -36,6 +47,7 @@ export default function Experience() {
                         rotation-x={-0.256}
                     >
                         <iframe src="https://myunghun0721.github.io/portfolio/" />
+
                     </Html>
                 </primitive>
                 <Text
@@ -57,5 +69,6 @@ export default function Experience() {
             scale={5}
             blur={2.4}
         />
-    </>
+    </Canvas>
+
 }
