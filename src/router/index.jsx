@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Experience from '../components/Laptop';
 import Homepage from '../components/Homepage/Homepage';
+import Physics from '../components/Physics';
 
 
 
@@ -14,6 +15,10 @@ export const router = createBrowserRouter([
       {
         path: "/laptop",
         element: <Experience />,
+      },
+      {
+        path: "/physics",
+        element: <Physics />,
       },
       {
         path: "/*",
