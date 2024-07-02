@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import Experience from '../components/Laptop';
 import Homepage from '../components/Homepage/Homepage';
 import Physics from '../components/Physics';
+import Game from '../components/Game';
 
 
 
@@ -19,6 +20,10 @@ export const router = createBrowserRouter([
       {
         path: "/physics",
         element: <Physics />,
+      },
+      {
+        path: "/game",
+        element: <Game/>
       },
       {
         path: "/*",

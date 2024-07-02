@@ -7,6 +7,7 @@ function Homepage() {
         <h1> Home page</h1>
         <NavLink to="/laptop">Laptop Portfolio</NavLink>
         <NavLink to="/physics">Physics</NavLink>
+        <NavLink to="/game">Game</NavLink>
     </div>
 }
 
