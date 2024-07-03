@@ -1,7 +1,7 @@
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import Lights from "./Lights";
-import Level from "./Level";
+import {Level} from "./Level";
 import { Physics } from "@react-three/rapier";
 
 export default function Experience() {
