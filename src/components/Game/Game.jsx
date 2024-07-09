@@ -1,25 +1,37 @@
-import { OrbitControls } from "@react-three/drei";
+import { KeyboardControls, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import Lights from "./Lights";
-import {Level} from "./Level";
+import { Level } from "./Level";
 import { Physics } from "@react-three/rapier";
+import Player from "./Player";
 
 export default function Experience() {
-    return <Canvas
-        className="r3f"
-        shadows
-        camera={{
-            fov: 45,
-            near: 0.1,
-            far: 200,
-            position: [2.5, 4, 6]
-        }}
-    >
-        <OrbitControls makeDefault />
+    return <>
+        <KeyboardControls map={[
+            { name: 'foward', keys: ['ArrowUp', 'KeyW'] },
+            { name: 'backward', keys: ['ArrowDown', 'KeyS'] },
+            { name: 'leftward', keys: ['ArrowLeft', 'KeyA'] },
+            { name: 'rightward', keys: ['ArrowRight', 'KeyD'] },
+            { name: 'jump', keys: ['Space'] }
+        ]}>
+            <Canvas
+                className="r3f"
+                shadows
+                camera={{
+                    fov: 45,
+                    near: 0.1,
+                    far: 200,
+                    position: [2.5, 4, 6]
+                }}
+            >
+                <OrbitControls makeDefault />
 
-        <Physics debug>
-            <Lights />
-            <Level />
-        </Physics>
-    </Canvas>
+                <Physics debug={false}>
+                    <Lights />
+                    <Level />
+                    <Player />
+                </Physics>
+            </Canvas>
+        </KeyboardControls>
+    </>
 }
