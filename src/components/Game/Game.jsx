@@ -1,4 +1,4 @@
-import { KeyboardControls, OrbitControls } from "@react-three/drei";
+import { KeyboardControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import Lights from "./Lights";
 import { Level } from "./Level";
@@ -24,7 +24,6 @@ export default function Experience() {
                     position: [2.5, 4, 6]
                 }}
             >
-                <OrbitControls makeDefault />
 
                 <Physics debug={false}>
                     <Lights />
@@ -32,6 +31,7 @@ export default function Experience() {
                     <Player />
                 </Physics>
             </Canvas>
+
         </KeyboardControls>
     </>
 }
