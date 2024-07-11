@@ -4,6 +4,9 @@ import Lights from "./Lights";
 import { Level } from "./Level";
 import { Physics } from "@react-three/rapier";
 import Player from "./Player";
+import Interface from "./Interface";
+
+
 
 export default function Experience() {
     return <>
@@ -32,6 +35,7 @@ export default function Experience() {
                 </Physics>
             </Canvas>
 
+            <Interface />
         </KeyboardControls>
     </>
 }
