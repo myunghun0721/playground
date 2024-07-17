@@ -5,11 +5,17 @@ import { Level } from "./Level";
 import { Physics } from "@react-three/rapier";
 import Player from "./Player";
 import Interface from "./Interface";
+import useGame from "../../stores/useGame";
+
 
 
 
 export default function Experience() {
+    const blocksCount = useGame((state) => state.blocksCount)
+
+    const blocksSeed = useGame(state => state.blocksSeed)
     return <>
+
         <KeyboardControls map={[
             { name: 'foward', keys: ['ArrowUp', 'KeyW'] },
             { name: 'backward', keys: ['ArrowDown', 'KeyS'] },
@@ -27,10 +33,10 @@ export default function Experience() {
                     position: [2.5, 4, 6]
                 }}
             >
-
+                <color args={['#bdedfc']} attach={'background'} />
                 <Physics debug={false}>
                     <Lights />
-                    <Level />
+                    <Level count={blocksCount} seed={blocksSeed} />
                     <Player />
                 </Physics>
             </Canvas>
