@@ -3,6 +3,7 @@ import Experience from '../components/Laptop';
 import Homepage from '../components/Homepage/Homepage';
 import Physics from '../components/Physics';
 import Game from '../components/Game';
+import Remaster from '../components/Remaster/Remaster';
 
 
 
@@ -26,8 +27,12 @@ export const router = createBrowserRouter([
         element: <Game/>
       },
       {
+        path: "/remaster",
+        element: <Remaster/>
+      },
+      {
         path: "/*",
-        element: <h1>Feature coming soon!</h1>,
+        element: <h1>404 page not found</h1>,
         // element: <FooterPage/>,
       },
     ],
