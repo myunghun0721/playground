@@ -1,11 +1,17 @@
-import { useKeyboardControls } from "@react-three/drei";
+import { Torus, useAnimations, useGLTF, useKeyboardControls } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { RigidBody, useRapier } from "@react-three/rapier";
+import { CuboidCollider, RigidBody, useRapier } from "@react-three/rapier";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from 'three'
 import useGame from "../../stores/useGame";
 
 export default function Player() {
+    const fox = useGLTF('./glTF/Fox.gltf')
+    fox.scene.children.forEach((mesh) => {
+        mesh.castShadow = true
+    })
+    const animation = useAnimations(fox.animations, fox.scene)
+
 
     const [subscribeKeys, getKeys] = useKeyboardControls()
     const body = useRef()
@@ -37,7 +43,7 @@ export default function Player() {
     const reset = () => {
         body.current.setTranslation({ x: 0, y: 1, z: 0 })
         body.current.setLinvel({ x: 0, y: 0, z: 0 })
-        body.current.setAngvel({ x: 0, y: 0, z: 0 })
+        body.current.setAngvel({ x: 0, y: 0, z: 10 })
 
     }
 
@@ -79,24 +85,28 @@ export default function Player() {
         const impulse = { x: 0, y: 0, z: 0 }
         const torque = { x: 0, y: 0, z: 0 }
 
-        const impulseStrength = 0.6 * delta
-        const torqueStrength = 0.2 * delta
+        const impulseStrength = 31 * delta
+        const torqueStrength = 0.6 * delta
 
         if (foward) {
+            animation.actions.Run.play()
             impulse.z -= impulseStrength
-            torque.x -= torqueStrength
+            // torque.x -= torqueStrength
+        }
+        else{
+            animation.actions.Run.stop()
         }
         if (backward) {
             impulse.z += impulseStrength
-            torque.x += torqueStrength
+            // torque.x += torqueStrength
         }
         if (leftward) {
             impulse.x -= impulseStrength
-            torque.z += torqueStrength
+            torque.y += torqueStrength
         }
         if (rightward) {
             impulse.x += impulseStrength
-            torque.z -= torqueStrength
+            torque.y -= torqueStrength
         }
 
         body.current.applyImpulse(impulse)
@@ -107,8 +117,8 @@ export default function Player() {
 
         const cameraPosition = new THREE.Vector3()
         cameraPosition.copy(bodyPosition)
-        cameraPosition.z += 5
-        cameraPosition.y += 5
+        cameraPosition.z += 3
+        cameraPosition.y += 3
 
         const cameraTarget = new THREE.Vector3()
         cameraTarget.copy(bodyPosition)
@@ -118,8 +128,8 @@ export default function Player() {
         smoothedCameraPosition.lerp(cameraPosition, 5 * delta)
         smoothedCameraTarget.lerp(cameraTarget, 5 * delta)
 
-        state.camera.position.copy(smoothedCameraPosition)
-        state.camera.lookAt(smoothedCameraTarget)
+        // state.camera.position.copy(smoothedCameraPosition)
+        // state.camera.lookAt(smoothedCameraTarget)
 
         // phases
         if (bodyPosition.z < - (blocksCount * 4 + 2)) {
@@ -132,17 +142,24 @@ export default function Player() {
     return <RigidBody
         ref={body}
         canSleep={false}
-        colliders="ball"
         restitution={0.2}
-        friction={1}
-        position={[0, 1, 0]}
+        friction={0.7}
+        colliders="cuboid"
+        position={[0, 0, 0]}
         linearDamping={0.5}
         angularDamping={0.5}
     >
-        <mesh castShadow>
-            <icosahedronGeometry args={[0.3, 1]} />
-            <meshStandardMaterial flatShading color={"mediumpurple"} />
-        </mesh>
+
+        <primitive
+            castShadow
+            object={fox.scene}
+            scale={0.02}
+            position={[0, 0, 0]}
+            rotation-y={3}
+        />
+
+
+
     </RigidBody>
 
 }

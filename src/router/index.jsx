@@ -27,7 +27,7 @@ export const router = createBrowserRouter([
         element: <Game/>
       },
       {
-        path: "/remaster",
+        path: "/test",
         element: <Remaster/>
       },
       {
