@@ -1,4 +1,4 @@
-# playground
+# Playground
 -----------------
 Used three.js for rendering 3d models
 
